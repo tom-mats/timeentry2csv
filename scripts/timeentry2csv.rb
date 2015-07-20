@@ -66,16 +66,18 @@ class Redmine
   end
 end
 
-opts = ARGV.getopts("start:2015-04-01", "end:2015-04-30")
+opts = ARGV.getopts("user", "start:2015-04-01", "end:2015-04-30")
 unless opts["start"] =~ /\d\d\d\d\-\d\d-\d\d/
   print "unmatched start format, it requires YYYY-MM-DD"
   exit
+end
 unless opts["end"] =~ /\d\d\d\d\-\d\d-\d\d/
   print "unmatched end format, it requires YYYY-MM-DD"
   exit
+end
 
 redmine = Redmine.new(redmine_url, redmine_username, redmine_api_token)
-data = redmine.timeentry("user", opts["start"], opts["end"])
+data = redmine.timeentry(opts["user"], opts["start"], opts["end"])
 CSV.open(csv_filename, "wb") do |csv|
   data.each{|one_day_data|
     csv << [one_day_data[0], one_day_data[1]["Design"].to_f, one_day_data[1]["Development"].to_f]
