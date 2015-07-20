@@ -76,7 +76,7 @@ unless opts["end"] =~ /\d\d\d\d\-\d\d-\d\d/
   exit
 end
 
-redmine = Redmine.new(redmine_url, redmine_username, redmine_api_token)
+redmine = Redmine.new(ENV["REDMINE_URL"], ENV["REDMINE_USERNAME"], ENV["REDMINE_TOKEN"])
 data = redmine.timeentry(opts["user"], opts["start"], opts["end"])
 CSV.open(csv_filename, "wb") do |csv|
   data.each{|one_day_data|
